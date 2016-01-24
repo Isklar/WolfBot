@@ -26,3 +26,6 @@ Command       | Description
 <img src="https://zippy.gfycat.com/DimpledDependentEagle.gif" width="800">
 <img src="https://zippy.gfycat.com/FreeWaryBittern.gif" width="800">
 <img src="https://zippy.gfycat.com/SophisticatedPerkyElkhound.gif" width="800">
+
+## Shoutouts
+Thanks to [Rapptz](https://github.com/Rapptz) for [discordpy](https://github.com/Rapptz/discord.py) which this bot uses.
