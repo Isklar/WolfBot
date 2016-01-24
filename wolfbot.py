@@ -24,7 +24,7 @@ invalidQueryStrings = ["Nobody knows.", "It's a mystery.", "I have no idea.", "N
 
 # Prints a single result pod
 def printPod(channel, text, title):
-    text.replace(text, "Wolfram|Alpha", "Wolfbot")
+    text.replace("Wolfram|Alpha", "Wolfbot")
     newmessage = client.send_message(channel, "__**" + title + ":**__\n" + "`" + text + "`")
     messageHistory.add(newmessage)
 
