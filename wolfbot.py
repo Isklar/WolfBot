@@ -114,14 +114,14 @@ def on_message(message):
                                          if podLimit < 2:
                                               printPod(message.channel, pod.text, pod.title)
                                               podLimit += 1
-
-                             for computemessage in computemessageHistory:
-                                 if len(res.pods)-2 != 0:
-                                    client.edit_message(computemessage, computemessage.content + "Finished! :checkered_flag: (" + str(len(res.pods)-2) + " more result pods availiable, rerun query with !wolf+)")
-                                 else:
-                                    client.edit_message(computemessage, computemessage.content + "Finished! :checkered_flag:")
                          else:
                              client.send_message(message.channel, random.choice(invalidQueryStrings))
+                             
+                             for computemessage in computemessageHistory:
+                                 if len(res.pods)-2 != 0:
+                                    client.edit_message(computemessage, computemessage.content + "Finished! :checkered_flag: (" + str(len(res.pods)-2) + " more result pods available, rerun query with !wolf+)")
+                                 else:
+                                    client.edit_message(computemessage, computemessage.content + "Finished! :checkered_flag:")
 
             else:
                 client.send_message(message.channel, ":wolf: Usage: !wolf <query|command> | !wolf+ <query|command>  :wolf:  Commands: clean | kill")
