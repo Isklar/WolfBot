@@ -14,7 +14,7 @@ waclient = wolframalpha.Client(app_id)
 
 # Discord client session
 client = discord.Client()
-await client.login(credentials.username, credentials.password)
+client.login(credentials.username, credentials.password)
 
 # Globals for message removal
 messageHistory = set()
