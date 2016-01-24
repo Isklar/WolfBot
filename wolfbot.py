@@ -1,11 +1,12 @@
 ﻿#!/usr/bin/python
 
 import sys
+import string
+import random
 import wolframalpha
 import discord
-import string
+import asyncio
 import credentials
-import random
 
 # Wolfram Alpha credentials and client session
 app_id = credentials.app_id
@@ -25,20 +26,20 @@ invalidQueryStrings = ["Nobody knows.", "It's a mystery.", "I have no idea.", "N
 # Prints a single result pod
 def printPod(channel, text, title):
     text.replace("Wolfram|Alpha", "Wolfbot")
-    newmessage = client.send_message(channel, "__**" + title + ":**__\n" + "`" + text + "`")
+    newmessage = await client.send_message(channel, "__**" + title + ":**__\n" + "`" + text + "`")
     messageHistory.add(newmessage)
 
 
 # Connection confirmation
 @client.event
-def on_ready():
+async def on_ready():
     print('Connected!')
     print('Username: ' + client.user.name)
     print('ID: ' + client.user.id)
     print("------------------")
 
 @client.event
-def on_message(message):
+async def on_message(message):
     # Check if message isnt the bot and query/command exists
     if message.author.id != client.user.id:
         if message.content.startswith('!wolf'):
@@ -50,7 +51,7 @@ def on_message(message):
                 # Clean messages
                 if query == 'clean':
                     print("Command: Clean")
-                    messageHistory.add(client.send_message(message.channel, "Cleaning messages."))
+                    messageHistory.add(await client.send_message(message.channel, "Cleaning messages."))
                     for wolfbotMessage in messageHistory:
                         client.delete_message(wolfbotMessage)   
                     messageHistory.clear()
@@ -63,20 +64,20 @@ def on_message(message):
                 elif query == 'kill':
                     print("Command: Kill")
                     if message.author.id == credentials.owner_id:
-                        client.send_message(message.channel, "Shutting down, bye! :wave:")
+                        await client.send_message(message.channel, "Shutting down, bye! :wave:")
                         sys.exit()
                     else:
-                        client.send_message(message.channel, "You have no power here. :clap::+1:")
+                        await client.send_message(message.channel, "You have no power here. :clap::+1:")
 
 
                 # Help
                 elif query == 'help':
-                    client.send_message(message.channel, ":wolf: Usage: !wolf <query|command> | !wolf+ <query|command>  :wolf:  Commands: clean | kill")
+                    await client.send_message(message.channel, ":wolf: Usage: !wolf <query|command> | !wolf+ <query|command>  :wolf:  Commands: clean | kill")
 
                 
                 # Run wolfram alpha query
                 else:
-                    queryComputeMessage = client.send_message(message.channel, ":wolf: Computing '" + query + "' :computer: :thought_balloon: ...")
+                    queryComputeMessage = await client.send_message(message.channel, ":wolf: Computing '" + query + "' :computer: :thought_balloon: ...")
                     computemessageHistory.add(queryComputeMessage)
                     
                     res = waclient.query(query)
@@ -92,7 +93,7 @@ def on_message(message):
 
                              client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag:")                     
                          else:
-                             client.send_message(message.channel, random.choice(invalidQueryStrings))
+                             await client.send_message(message.channel, random.choice(invalidQueryStrings))
                     else:
                          # Short answer query
                          if len(res.pods) > 0:
@@ -116,7 +117,7 @@ def on_message(message):
                                               printPod(message.channel, pod.text, pod.title)
                                               podLimit += 1
                          else:
-                             client.send_message(message.channel, random.choice(invalidQueryStrings))
+                             await client.send_message(message.channel, random.choice(invalidQueryStrings))
                              
                          if len(res.pods)-2 > 0:
                             client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag: (" + str(len(res.pods)-2) + " more result pods available, rerun query with !wolf+)")
@@ -124,10 +125,10 @@ def on_message(message):
                             client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag:")
 
             else:
-                client.send_message(message.channel, ":wolf: Usage: !wolf <query|command> | !wolf+ <query|command>  :wolf:  Commands: clean | kill")
-                client.send_message(message.channel, ":wolf: Github: https://github.com/Isklar/WolfBot")
+                await client.send_message(message.channel, ":wolf: Usage: !wolf <query|command> | !wolf+ <query|command>  :wolf:  Commands: clean | kill")
+                await client.send_message(message.channel, ":wolf: Github: https://github.com/Isklar/WolfBot")
         
-client.run()
+client.run(credentials.username, credentials.password)
 
 
  
