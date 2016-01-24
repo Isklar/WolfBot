@@ -119,6 +119,7 @@ def on_message(message):
 
             else:
                 client.send_message(message.channel, ":wolf: Usage: !wolf <query|command> | !wolf+ <query|command>  :wolf:  Commands: clean | kill")
+                client.send_message(message.channel, ":wolf: Github: https://github.com/Isklar/WolfBot")
         
 client.run()
 
