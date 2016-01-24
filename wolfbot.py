@@ -35,6 +35,7 @@ def on_ready():
     print('Connected!')
     print('Username: ' + client.user.name)
     print('ID: ' + client.user.id)
+    print("------------------")
 
 @client.event
 def on_message(message):
@@ -48,6 +49,7 @@ def on_message(message):
                 
                 # Clean messages
                 if query == 'clean':
+                    print("Command: Clean")
                     messageHistory.add(client.send_message(message.channel, "Cleaning messages."))
                     for wolfbotMessage in messageHistory:
                         client.delete_message(wolfbotMessage)   
@@ -59,6 +61,7 @@ def on_message(message):
 
                 # Kill the bot
                 elif query == 'kill':
+                    print("Command: Clean")
                     if message.author.id == credentials.owner_id:
                         client.send_message(message.channel, "Shutting down, bye! :wave:")
                         sys.exit()
@@ -75,10 +78,10 @@ def on_message(message):
                 else:
                     computemessageHistory.add(client.send_message(message.channel, ":wolf: Computing '" + query + "' :computer: :thought_balloon: ..."))
                     res = waclient.query(query)
+                    print("Query: " + query)
                     
                     if message.content.startswith('!wolf+'):
-                    
-                         # Expanded qeury
+                         # Expanded query
                          if len(res.pods) > 0:
                              texts = ""
                              for pod in res.pods:
