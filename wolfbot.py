@@ -113,7 +113,8 @@ def on_message(message):
                                               podLimit += 1
 
                              for computemessage in computemessageHistory:
-                                 client.edit_message(computemessage, computemessage.content + "Finished! :checkered_flag: (" + str(len(res.pods)-2) + " more result pods availiable, rerun query with !wolf+)")
+                                 if len(res.pods)-2 != 0:
+                                    client.edit_message(computemessage, computemessage.content + "Finished! :checkered_flag: (" + str(len(res.pods)-2) + " more result pods availiable, rerun query with !wolf+)")
                          else:
                              client.send_message(message.channel, random.choice(invalidQueryStrings))
 
