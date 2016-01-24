@@ -4,8 +4,8 @@ A Wolfram Alpha Discord bot.
 ## Setup
 1. Create an account on [Wolfram Alpha](https://developer.wolframalpha.com/portal/apisignup.html) and get yourself an app ID.
 2. Create an account for the bot on [Discord](discordapp.com).
-3. Copy credentials_example.py to credentials.py and fill in the Wolfram Alpha and Discord details.
-4. Find your own Discord user ID and put it into the ownder_id section of the credentials.
+3. Copy `credentials_example.py` to `credentials.py` and fill in the Wolfram Alpha and Discord details.
+4. Find your own Discord user ID and put it into the `owner_id` section of the credentials.
 5. `pip install discord.py`
 6. `pip install wolframalpha`
 7. Run the bot `python wolfbot.py`.
