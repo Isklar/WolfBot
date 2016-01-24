@@ -24,7 +24,7 @@ computemessageHistory = set()
 invalidQueryStrings = ["Nobody knows.", "It's a mystery.", "I have no idea.", "No clue, sorry!", "Im afraid I can't let you do that", "Maybe another time.", "Ask someone else.", "That is anybody's guess.", "Beats me.", "I havent the faintest idea"]
 
 # Prints a single result pod
-async def printPod(channel, text, title):
+async def await printPod(channel, text, title):
     text.replace("Wolfram|Alpha", "Wolfbot")
     newmessage = await client.send_message(channel, "__**" + title + ":**__\n" + "`" + text + "`")
     messageHistory.add(newmessage)
@@ -89,7 +89,7 @@ async def on_message(message):
                              texts = ""
                              for pod in res.pods:
                                 if pod.text:
-                                     printPod(message.channel, pod.text, pod.title)
+                                     await printPod(message.channel, pod.text, pod.title)
 
                              client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag:")                     
                          else:
@@ -110,11 +110,11 @@ async def on_message(message):
                                 if pod.text:
                                      if resultPresent == 1:
                                          if pod.title == 'Result':
-                                              printPod(message.channel, pod.text, pod.title)
+                                              await printPod(message.channel, pod.text, pod.title)
                                      # If no result pod is present, prints input interpretation and 1 other pod (normally contains useful answer)
                                      else:
                                          if podLimit < 2:
-                                              printPod(message.channel, pod.text, pod.title)
+                                              await printPod(message.channel, pod.text, pod.title)
                                               podLimit += 1
                          else:
                              await client.send_message(message.channel, random.choice(invalidQueryStrings))
