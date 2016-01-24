@@ -8,11 +8,13 @@ A Wolfram Alpha Discord bot.
 - `discord.py` library (`pip install git+https://github.com/Rapptz/discord.py@async`)
 - `wolframalpha` library
 
-`pip install` can handle these for you. Make sure you're using the python3 versions of the pip libraries.
+`pip install` can handle these for you. 
 
-`sudo apt-get install python3-pip`
-`sudo pip3 install MODULE_NAME`
-
+Make sure you're using the python3 versions of the pip libraries.
+```
+sudo apt-get install python3-pip
+sudo pip3 install MODULE_NAME
+```
 ## Setup
 1. Create an account on [Wolfram Alpha](https://developer.wolframalpha.com/portal/apisignup.html) and get yourself an app ID.
 2. Create an account for the bot on [Discord](discordapp.com).
