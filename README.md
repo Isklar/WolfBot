@@ -20,3 +20,9 @@ Command       | Description
 !wolf+ \<query\>| Works the same was as !wolf <query> but provides the entire output from Wolfram.
 !wolf kill    | Kills the bot process, only the owner can use this.
 !wolf clean   | Cleans up the bots previous outputs.
+
+## Examples
+
+<img src="https://zippy.gfycat.com/DimpledDependentEagle.gif" width="800">
+<img src="https://zippy.gfycat.com/FreeWaryBittern.gif" width="800">
+<img src="https://zippy.gfycat.com/SophisticatedPerkyElkhound.gif" width="800">
