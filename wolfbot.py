@@ -76,7 +76,9 @@ def on_message(message):
                 
                 # Run wolfram alpha query
                 else:
-                    computemessageHistory.add(client.send_message(message.channel, ":wolf: Computing '" + query + "' :computer: :thought_balloon: ..."))
+                    queryComputeMessage = client.send_message(message.channel, ":wolf: Computing '" + query + "' :computer: :thought_balloon: ...")
+                    computemessageHistory.add(queryComputeMessage)
+                    
                     res = waclient.query(query)
                     print("Query: " + query)
                     
@@ -88,8 +90,7 @@ def on_message(message):
                                 if pod.text:
                                      printPod(message.channel, pod.text, pod.title)
 
-                             for computemessage in computemessageHistory:
-                                 client.edit_message(computemessage, computemessage.content + "Finished! :checkered_flag:")                     
+                             client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag:")                     
                          else:
                              client.send_message(message.channel, random.choice(invalidQueryStrings))
                     else:
@@ -117,11 +118,10 @@ def on_message(message):
                          else:
                              client.send_message(message.channel, random.choice(invalidQueryStrings))
                              
-                         for computemessage in computemessageHistory:
-                             if len(res.pods)-2 > 0:
-                                client.edit_message(computemessage, computemessage.content + "Finished! :checkered_flag: (" + str(len(res.pods)-2) + " more result pods available, rerun query with !wolf+)")
-                             else:
-                                client.edit_message(computemessage, computemessage.content + "Finished! :checkered_flag:")
+                         if len(res.pods)-2 > 0:
+                            client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag: (" + str(len(res.pods)-2) + " more result pods available, rerun query with !wolf+)")
+                         else:
+                            client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag:")
 
             else:
                 client.send_message(message.channel, ":wolf: Usage: !wolf <query|command> | !wolf+ <query|command>  :wolf:  Commands: clean | kill")
