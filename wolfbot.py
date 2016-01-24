@@ -118,7 +118,7 @@ def on_message(message):
                              client.send_message(message.channel, random.choice(invalidQueryStrings))
                              
                              for computemessage in computemessageHistory:
-                                 if len(res.pods)-2 != 0:
+                                 if len(res.pods)-2 > 0:
                                     client.edit_message(computemessage, computemessage.content + "Finished! :checkered_flag: (" + str(len(res.pods)-2) + " more result pods available, rerun query with !wolf+)")
                                  else:
                                     client.edit_message(computemessage, computemessage.content + "Finished! :checkered_flag:")
