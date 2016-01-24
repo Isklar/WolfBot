@@ -14,7 +14,7 @@ waclient = wolframalpha.Client(app_id)
 
 # Discord client session
 client = discord.Client()
-client.login(credentials.username, credentials.password)
+await client.login(credentials.username, credentials.password)
 
 # Globals for message removal
 messageHistory = set()
@@ -53,11 +53,11 @@ async def on_message(message):
                     print("Command: Clean")
                     messageHistory.add(await client.send_message(message.channel, "Cleaning messages."))
                     for wolfbotMessage in messageHistory:
-                        client.delete_message(wolfbotMessage)   
+                        await client.delete_message(wolfbotMessage)   
                     messageHistory.clear()
 
                     for computeMessage in computemessageHistory:
-                        client.edit_message(computeMessage, computeMessage.content + "Cleared output. :ok_hand:")
+                        await client.edit_message(computeMessage, computeMessage.content + "Cleared output. :ok_hand:")
                     computemessageHistory.clear()
 
                 # Kill the bot
@@ -91,7 +91,7 @@ async def on_message(message):
                                 if pod.text:
                                      await printPod(message.channel, pod.text, pod.title)
 
-                             client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag:")                     
+                             await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag:")                     
                          else:
                              await client.send_message(message.channel, random.choice(invalidQueryStrings))
                     else:
@@ -120,9 +120,9 @@ async def on_message(message):
                              await client.send_message(message.channel, random.choice(invalidQueryStrings))
                              
                          if len(res.pods)-2 > 0:
-                            client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag: (" + str(len(res.pods)-2) + " more result pods available, rerun query with !wolf+)")
+                            await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag: (" + str(len(res.pods)-2) + " more result pods available, rerun query with !wolf+)")
                          else:
-                            client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag:")
+                            await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag:")
 
             else:
                 await client.send_message(message.channel, ":wolf: Usage: !wolf <query|command> | !wolf+ <query|command>  :wolf:  Commands: clean | kill")
