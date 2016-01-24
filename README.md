@@ -28,4 +28,4 @@ Command       | Description
 <img src="https://zippy.gfycat.com/SophisticatedPerkyElkhound.gif" width="800">
 
 ## Shoutouts
-Thanks to @Rapptz for [discordpy](https://github.com/Rapptz/discord.py) which this bot uses.
+Thanks to [Rapptz](https://github.com/Rapptz) for [discordpy](https://github.com/Rapptz/discord.py) which this bot uses.
