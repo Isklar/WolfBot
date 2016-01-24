@@ -24,7 +24,7 @@ computemessageHistory = set()
 invalidQueryStrings = ["Nobody knows.", "It's a mystery.", "I have no idea.", "No clue, sorry!", "Im afraid I can't let you do that", "Maybe another time.", "Ask someone else.", "That is anybody's guess.", "Beats me.", "I havent the faintest idea"]
 
 # Prints a single result pod
-def await printPod(channel, text, title):
+async def printPod(channel, text, title):
     text.replace("Wolfram|Alpha", "Wolfbot")
     newmessage = await client.send_message(channel, "__**" + title + ":**__\n" + "`" + text + "`")
     messageHistory.add(newmessage)
