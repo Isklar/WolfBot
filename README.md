@@ -1,14 +1,21 @@
 # WolfBot
 A Wolfram Alpha Discord bot.
 
+## Requirements
+- Python 3.4.2+
+- `aiohttp` library
+- `websockets` library
+- `discord.py` library (`pip install git+https://github.com/Rapptz/discord.py@async`)
+- `wolframalpha` library
+
+`pip install` can handle these for you
+
 ## Setup
 1. Create an account on [Wolfram Alpha](https://developer.wolframalpha.com/portal/apisignup.html) and get yourself an app ID.
 2. Create an account for the bot on [Discord](discordapp.com).
 3. Copy `credentials_example.py` to `credentials.py` and fill in the Wolfram Alpha and Discord details.
 4. Find your own Discord user ID and put it into the `owner_id` section of the credentials.
-5. `pip install discord.py`
-6. `pip install wolframalpha`
-7. Run the bot `python wolfbot.py`.
+5. Run the bot `python3 wolfbot.py`.
 
 ## Using the bot
 ### Bot commands
