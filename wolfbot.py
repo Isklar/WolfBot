@@ -10,7 +10,8 @@ import credentials
 import re
 
 # Regex for IP address
-ip_addr_regex = re.compile(r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b')
+ipv4_regex = re.compile(r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b')
+ipv6_regex = re.compile(r'(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))')
 
 # Wolfram Alpha credentials and client session
 app_id = credentials.app_id
@@ -29,8 +30,9 @@ invalidQueryStrings = ["Nobody knows.", "It's a mystery.", "I have no idea.", "N
 
 # Prints a single result pod
 async def printPod(channel, text, title):
-    text.replace("Wolfram|Alpha", "Wolfbot")
-    re.sub(ip_addr_regex, ":black_medium_small_square Redacted :black_medium_small_square", text)
+    text = text.replace("Wolfram|Alpha", "Wolfbot") 
+    text = re.sub(ipv4_regex, "IP Redacted", text)
+    text = re.sub(ipv6_regex, "IP Redacted", text)
     newmessage = await client.send_message(channel, "__**" + title + ":**__\n" + "`" + text + "`")
     messageHistory.add(newmessage)
 
