@@ -26,7 +26,7 @@ messageHistory = set()
 computemessageHistory = set()
 
 # Fun strings for invalid queries
-invalidQueryStrings = ["Nobody knows.", "It's a mystery.", "I have no idea.", "No clue, sorry!", "Im afraid I can't let you do that", "Maybe another time.", "Ask someone else.", "That is anybody's guess.", "Beats me.", "I havent the faintest idea"]
+invalidQueryStrings = ["Nobody knows.", "It's a mystery.", "I have no idea.", "No clue, sorry!", "I'm afraid I can't let you do that.", "Maybe another time.", "Ask someone else.", "That is anybody's guess.", "Beats me.", "I haven't the faintest idea."]
 
 # Prints a single result pod
 async def printPod(channel, text, title):
