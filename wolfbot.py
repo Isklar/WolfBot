@@ -57,7 +57,7 @@ async def on_message(message):
                 
                 # Clean messages
                 if query == 'clean':
-                    print(message.author.name + " | "Command: Clean")
+                    print(message.author.name + " | Command: Clean")
                     messageHistory.add(await client.send_message(message.channel, "Cleaning messages."))
                     for wolfbotMessage in messageHistory:
                         await client.delete_message(wolfbotMessage)   
@@ -87,7 +87,7 @@ async def on_message(message):
                     queryComputeMessage = await client.send_message(message.channel, ":wolf: Computing '" + query + "' :computer: :thought_balloon: ...")
                     computemessageHistory.add(queryComputeMessage)
                     
-                    print(message.author.name + " | "Query: " + query)
+                    print(message.author.name + " | Query: " + query)
                     res = waclient.query(query)
                     
                     if message.content.startswith('!wolf+'):
