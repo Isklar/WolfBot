@@ -57,7 +57,7 @@ async def on_message(message):
                 
                 # Clean messages
                 if query == 'clean':
-                    print("Command: Clean")
+                    print(message.author.name + " | "Command: Clean")
                     messageHistory.add(await client.send_message(message.channel, "Cleaning messages."))
                     for wolfbotMessage in messageHistory:
                         await client.delete_message(wolfbotMessage)   
@@ -69,7 +69,7 @@ async def on_message(message):
 
                 # Kill the bot
                 elif query == 'kill':
-                    print("Command: Kill")
+                    print(message.author.name + " | Command: Kill")
                     if message.author.id == credentials.owner_id:
                         await client.send_message(message.channel, "Shutting down, bye! :wave:")
                         sys.exit()
@@ -87,8 +87,8 @@ async def on_message(message):
                     queryComputeMessage = await client.send_message(message.channel, ":wolf: Computing '" + query + "' :computer: :thought_balloon: ...")
                     computemessageHistory.add(queryComputeMessage)
                     
+                    print(message.author.name + " | "Query: " + query)
                     res = waclient.query(query)
-                    print("Query: " + query)
                     
                     if message.content.startswith('!wolf+'):
                          # Expanded query
@@ -98,7 +98,7 @@ async def on_message(message):
                                 if pod.text:
                                      await printPod(message.channel, pod.text, pod.title)
 
-                             await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag:")                     
+                             await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! " + message.author.mention + " :checkered_flag:")
                          else:
                              await client.send_message(message.channel, random.choice(invalidQueryStrings))
                     else:
@@ -127,9 +127,9 @@ async def on_message(message):
                              await client.send_message(message.channel, random.choice(invalidQueryStrings))
                              
                          if len(res.pods)-2 > 0:
-                            await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag: (" + str(len(res.pods)-2) + " more result pods available, rerun query with !wolf+)")
+                            await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! " + message.author.mention + " :checkered_flag: (" + str(len(res.pods)-2) + " more result pods available, rerun query with !wolf+)")
                          else:
-                            await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! :checkered_flag:")
+                            await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! " + message.author.mention + " :checkered_flag:")
 
             else:
                 await client.send_message(message.channel, ":wolf: Usage: !wolf <query|command> | !wolf+ <query|command>  :wolf:  Commands: clean | kill")
