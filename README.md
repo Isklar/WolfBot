@@ -1,5 +1,7 @@
 # WolfBot
-A Wolfram Alpha Discord bot.
+A Wolfram Alpha query bot for Discord written in Python.
+
+:exclamation: The latest working version is likely to be in the async branch :exclamation:
 
 ## Requirements
 - Python 3.4.2+
