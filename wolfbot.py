@@ -112,24 +112,35 @@ async def on_message(message):
                     
                     print(message.author.name + " | Query: " + query)
                     res = waclient.query(query)
-                    previousQuery = query
                     
                     if message.content.startswith('!wolf+'):
                          # Expanded query
-                         if len(res.pods) > 0:
-                             for pod in res.pods:
-                                  if pod.text:
-                                     await printPod(message.channel, pod.text, pod.title)
-                                  elif pod.img:
-                                     await printImgPod(message.channel, pod.img, pod.title)
+                         if len(query) > 1:
+                             res = waclient.query(query)
+                             if len(res.pods) > 0:
+                                 for pod in res.pods:
+                                      if pod.text:
+                                         await printPod(message.channel, pod.text, pod.title)
+                                      elif pod.img:
+                                         await printImgPod(message.channel, pod.img, pod.title)
 
-                             await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! " + message.author.mention + " :checkered_flag:")
+                                 await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! " + message.author.mention + " :checkered_flag:")
+                             else:
+                                 await client.send_message(message.channel, random.choice(invalidQueryStrings))
                          else:
-                             await client.send_message(message.channel, random.choice(invalidQueryStrings))
+                             if len(res.pods) > 0:
+                             res = waclient.query(previousQuery)
+                                 for pod in res.pods:
+                                      if pod.text:
+                                         await printPod(message.channel, pod.text, pod.title)
+                                      elif pod.img:
+                                         await printImgPod(message.channel, pod.img, pod.title)
+
+                                 await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! " + message.author.mention + " :checkered_flag:")
                     else:
                          # Short answer query
                          if len(res.pods) > 0:
-                             texts = ""
+                             res = waclient.query(query)
                              resultPresent = 0
                              podLimit = 0
 
@@ -155,25 +166,7 @@ async def on_message(message):
                             await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! " + message.author.mention + " :checkered_flag: (" + str(len(res.pods)-2) + " more result pods available, rerun query with !wolf+)")
                          else:
                             await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! " + message.author.mention + " :checkered_flag:")
-
-            # Rerun last query using wolf+ (should really make a method for this)
-            elif message.content.startswith('!wolf+'):
-                 queryComputeMessage = await client.send_message(message.channel, ":wolf: Computing '" + previousQuery + "' :computer: :thought_balloon: ...")
-                 computemessageHistory.add(queryComputeMessage)
-                 
-                 print(message.author.name + " | Query+: " + previousQuery)
-                 res = waclient.query(previousQuery)
-                 
-                 if len(res.pods) > 0:
-                     for pod in res.pods:
-                          if pod.text:
-                             await printPod(message.channel, pod.text, pod.title)
-                          elif pod.img:
-                             await printImgPod(message.channel, pod.img, pod.title)
-
-                     await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! " + message.author.mention + " :checkered_flag:")
-                 else:
-                     await client.send_message(message.channel, random.choice(invalidQueryStrings))
+                    previousQuery = query
             
             else:
                 await client.send_message(message.channel, ":wolf: Usage: !wolf <query|command> | !wolf+ <query|command>  :wolf:  Commands: clean | kill")
