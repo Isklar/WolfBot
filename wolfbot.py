@@ -24,7 +24,7 @@ client.login(credentials.username, credentials.password)
 # Globals for message removal
 messageHistory = set()
 computemessageHistory = set()
-previousQuery = ""
+previousQuery = ''
 
 # Fun strings for invalid queries
 invalidQueryStrings = ["Nobody knows.", "It's a mystery.", "I have no idea.", "No clue, sorry!", "I'm afraid I can't let you do that.", "Maybe another time.", "Ask someone else.", "That is anybody's guess.", "Beats me.", "I haven't the faintest idea."]
@@ -40,7 +40,6 @@ async def printPod(channel, text, title):
 
 # Prints a single image pod
 async def printImgPod(channel, img, title):
-#    img = img.encode('ascii', 'ignore')
     newmessage = await client.send_message(channel, "__**" + title + ":**__\n" + img)
     messageHistory.add(newmessage)
 
@@ -54,6 +53,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    global previousQuery
     # Check if message isnt the bot and query/command exists
     if message.author.id != client.user.id:
         if message.content.startswith('!wolf'):
@@ -107,11 +107,15 @@ async def on_message(message):
                 
                 # Run wolfram alpha query
                 else:
-                    queryComputeMessage = await client.send_message(message.channel, ":wolf: Computing '" + query + "' :computer: :thought_balloon: ...")
+                    if len(query) > 1:
+                         queryComputeMessage = await client.send_message(message.channel, ":wolf: Computing '" + query + "' :computer: :thought_balloon: ...")
+                         print(message.author.name + " | Query: " + query)
+                    else:
+                         print(message.author.name + " | Query: " + previousQuery)
+                         queryComputeMessage = await client.send_message(message.channel, ":wolf: Computing '" + previousQuery + "' :computer: :thought_balloon: ...")
+
                     computemessageHistory.add(queryComputeMessage)
-                    
-                    print(message.author.name + " | Query: " + query)
-                    
+
                     if message.content.startswith('!wolf+'):
                          # Expanded query
                          if len(query) > 1:
