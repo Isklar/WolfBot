@@ -30,12 +30,18 @@ invalidQueryStrings = ["Nobody knows.", "It's a mystery.", "I have no idea.", "N
 
 # Prints a single result pod
 async def printPod(channel, text, title):
-    text = text.replace("Wolfram|Alpha", "Wolfbot") 
+    text = text.replace("Wolfram|Alpha", "Wolfbot")
+    text = text.replace("Wolfram", "Wolf")
     text = re.sub(ipv4_regex, "IP Redacted", text)
     text = re.sub(ipv6_regex, "IP Redacted", text)
     newmessage = await client.send_message(channel, "__**" + title + ":**__\n" + "`" + text + "`")
     messageHistory.add(newmessage)
 
+# Prints a single image pod
+async def printImgPod(channel, img, title):
+#    img = img.encode('ascii', 'ignore')
+    newmessage = await client.send_message(channel, "__**" + title + ":**__\n" + img)
+    messageHistory.add(newmessage)
 
 # Connection confirmation
 @client.event
@@ -51,7 +57,7 @@ async def on_message(message):
     if message.author.id != client.user.id:
         if message.content.startswith('!wolf'):
             if len(message.content) > 5:
-                
+
                 # Strip !wolf
                 query = message.content[6:]
                 
@@ -67,13 +73,12 @@ async def on_message(message):
                                     await client.delete_message(historicMessage)
                                 if historicMessage.content.startswith('!wolf'):
                                     try:
-                                       client.delete_message(historicMessage)
+                                       await client.delete_message(historicMessage)
                                     except:
                                        print('Error: Cannot delete messages!')
                 
                 # Clean messages
-                # Removes the output pods and edits the computing message
-                if query == 'clean':
+                elif query == 'clean':
                     print(message.author.name + " | Command: Clean")
                     messageHistory.add(await client.send_message(message.channel, "Cleaning messages."))
                     for wolfbotMessage in messageHistory:
@@ -112,8 +117,10 @@ async def on_message(message):
                          if len(res.pods) > 0:
                              texts = ""
                              for pod in res.pods:
-                                if pod.text:
+                                  if pod.text:
                                      await printPod(message.channel, pod.text, pod.title)
+                                  elif pod.img:
+                                     await printImgPod(message.channel, pod.img, pod.title)
 
                              await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! " + message.author.mention + " :checkered_flag:")
                          else:
