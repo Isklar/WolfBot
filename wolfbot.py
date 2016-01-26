@@ -55,7 +55,24 @@ async def on_message(message):
                 # Strip !wolf
                 query = message.content[6:]
                 
+                # Purge messages
+                # Deletes all messages sent by the bot and delete !wolf calls if the bot has perms
+                if query == 'purge':
+                    print(message.author.name + " | Command: Purge")
+                    if message.author.id == credentials.owner_id:
+                        await client.send_message(message.channel, "Purging messages.")
+
+                        async for historicMessage in client.logs_from(message.channel):
+                                if historicMessage.author == client.user:
+                                    await client.delete_message(historicMessage)
+                                if historicMessage.content.startswith('!wolf'):
+                                    try:
+                                       client.delete_message(historicMessage)
+                                    except:
+                                       print('Error: Cannot delete messages!')
+                
                 # Clean messages
+                # Removes the output pods and edits the computing message
                 if query == 'clean':
                     print(message.author.name + " | Command: Clean")
                     messageHistory.add(await client.send_message(message.channel, "Cleaning messages."))
