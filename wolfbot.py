@@ -24,6 +24,7 @@ client.login(credentials.username, credentials.password)
 # Globals for message removal
 messageHistory = set()
 computemessageHistory = set()
+previousQuery = ""
 
 # Fun strings for invalid queries
 invalidQueryStrings = ["Nobody knows.", "It's a mystery.", "I have no idea.", "No clue, sorry!", "I'm afraid I can't let you do that.", "Maybe another time.", "Ask someone else.", "That is anybody's guess.", "Beats me.", "I haven't the faintest idea."]
@@ -111,11 +112,11 @@ async def on_message(message):
                     
                     print(message.author.name + " | Query: " + query)
                     res = waclient.query(query)
+                    previousQuery = query
                     
                     if message.content.startswith('!wolf+'):
                          # Expanded query
                          if len(res.pods) > 0:
-                             texts = ""
                              for pod in res.pods:
                                   if pod.text:
                                      await printPod(message.channel, pod.text, pod.title)
@@ -155,6 +156,25 @@ async def on_message(message):
                          else:
                             await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! " + message.author.mention + " :checkered_flag:")
 
+            # Rerun last query using wolf+ (should really make a method for this)
+            elif message.content.startswith('!wolf+'):
+                 queryComputeMessage = await client.send_message(message.channel, ":wolf: Computing '" + previousQuery + "' :computer: :thought_balloon: ...")
+                 computemessageHistory.add(queryComputeMessage)
+                 
+                 print(message.author.name + " | Query+: " + previousQuery)
+                 res = waclient.query(previousQuery)
+                 
+                 if len(res.pods) > 0:
+                     for pod in res.pods:
+                          if pod.text:
+                             await printPod(message.channel, pod.text, pod.title)
+                          elif pod.img:
+                             await printImgPod(message.channel, pod.img, pod.title)
+
+                     await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! " + message.author.mention + " :checkered_flag:")
+                 else:
+                     await client.send_message(message.channel, random.choice(invalidQueryStrings))
+            
             else:
                 await client.send_message(message.channel, ":wolf: Usage: !wolf <query|command> | !wolf+ <query|command>  :wolf:  Commands: clean | kill")
                 await client.send_message(message.channel, ":wolf: Github: https://github.com/Isklar/WolfBot")
