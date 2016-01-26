@@ -111,7 +111,6 @@ async def on_message(message):
                     computemessageHistory.add(queryComputeMessage)
                     
                     print(message.author.name + " | Query: " + query)
-                    res = waclient.query(query)
                     
                     if message.content.startswith('!wolf+'):
                          # Expanded query
@@ -139,8 +138,8 @@ async def on_message(message):
                                  await client.edit_message(queryComputeMessage, queryComputeMessage.content + "Finished! " + message.author.mention + " :checkered_flag:")
                     else:
                          # Short answer query
+                         res = waclient.query(query)
                          if len(res.pods) > 0:
-                             res = waclient.query(query)
                              resultPresent = 0
                              podLimit = 0
 
