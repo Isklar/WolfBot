@@ -127,8 +127,8 @@ async def on_message(message):
                              else:
                                  await client.send_message(message.channel, random.choice(invalidQueryStrings))
                          else:
+                             res = waclient.query(previousQuery)
                              if len(res.pods) > 0:
-                                 res = waclient.query(previousQuery)
                                  for pod in res.pods:
                                       if pod.text:
                                          await printPod(message.channel, pod.text, pod.title)
